@@ -18,12 +18,12 @@ def update_item(id):
         item.price = form.data["price"]
         
         db.session.commit()
-        return item
+        return item.to_dict()
     if form.errors:
         return form.errors
 
 
-@bp.route('/<int:id>', methods=["DELETE"])
+@bp.route('/items/<int:id>', methods=["DELETE"])
 def delete_item(id):
     item = Item.query.filter_by(id = id).first()
     db.session.delete(item)

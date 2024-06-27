@@ -53,3 +53,18 @@ class Pokemon(db.Model):
             'moves':moves,
             'items':items
         }
+
+    def to_dict_no_item(self):
+        moves = self.moves.split()
+    
+        return {
+        'imageUrl':self.imageUrl,
+        'id':self.id,
+        'number':self.number,
+        'name':self.name,
+        'captured':self.captured,
+        'attack':self.attack,
+        'defense':self.defense,
+        'type':self.type.value,
+        'moves':moves
+    }

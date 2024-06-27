@@ -16,7 +16,6 @@ class CreatePokemonForm(FlaskForm):
     number= IntegerField("Number", validators=[DataRequired()])
     attack=StringField("Attack", validators=[DataRequired()])
     defense=StringField("Defense", validators=[DataRequired()])
-    ## or FileField
     imageUrl=StringField("Image URL")
     name= StringField("Name", validators =[DataRequired()])
     type= SelectField("Type", choices=[x.value for x in Types])

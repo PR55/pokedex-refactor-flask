@@ -30,13 +30,14 @@ def pokemon():
     if form.errors:
         return form.errors
 
-    all_pokemon = [x.to_dict() for x in Pokemon.query.all()]
+    all_pokemon = [x.to_dict_no_item() for x in Pokemon.query.all()]
     return all_pokemon
 
-@bp.route('/pokemon/<int:id>', methods=['GET'])
+@bp.route("/pokemon/<int:id>", methods=['GET'])
 def one_pokemon(id):
+   
     poke = Pokemon.query.filter_by(id = id).first()
-    return poke.to_dict()
+    return poke.to_dict_no_item()
 
 @bp.route('/pokemon/<int:id>', methods=["PUT"])
 def edit_pokemon(id):
@@ -57,7 +58,7 @@ def edit_pokemon(id):
 
         db.session.commit()
 
-        return pokemon
+        return pokemon.to_dict_no_item()
     if form.errors:
         return form.errors
 
@@ -71,10 +72,11 @@ def get_types():
 def get_random():
     pokemon = Pokemon.query.all()
     random_poke = random.choice(pokemon)
-    return random_poke
+    return random_poke.to_dict_no_item()
 
 @bp.route('/pokemon/<int:id>/items', methods=['GET'])
 def items(id):
+    print(id, "ID")
     items = [x.to_dict() for x in Item.query.filter_by(pokemonId = id).all()]
     return items
 
@@ -93,6 +95,6 @@ def post_items(id):
         )
         db.session.add(new_item)
         db.session.commit()
-        return new_item
+        return new_item.to_dict()
     if form.errors:
         return form.errors
