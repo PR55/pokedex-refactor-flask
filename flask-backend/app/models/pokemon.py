@@ -37,6 +37,7 @@ class Pokemon(db.Model):
     items = db.relationship('Item', back_populates='pokemon')
 
     def to_dict(self):
+        moves = self.moves.split()
         items = [x.get_id() for x in self.items]
 
         return {
@@ -48,5 +49,6 @@ class Pokemon(db.Model):
             'attack':self.attack,
             'defense':self.defense,
             'type':self.type,
+            'moves':moves,
             'items':items
         }
