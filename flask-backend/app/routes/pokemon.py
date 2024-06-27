@@ -4,6 +4,7 @@ from ..forms import CreatePokemonForm, ItemForm
 from ..models.pokemon import Pokemon, db, Types
 from ..models.item import Item
 from random import random
+from ..seedData import randomImage
 bp = Blueprint("pokemons", __name__, url_prefix="/api")
 
 
@@ -26,6 +27,7 @@ def pokemon():
         )
         db.session.add(new_pokemon)
         db.session.commit()
+        return new_pokemon.to_dict_no_item()
 
     if form.errors:
         return form.errors
@@ -35,7 +37,7 @@ def pokemon():
 
 @bp.route("/pokemon/<int:id>", methods=['GET'])
 def one_pokemon(id):
-   
+
     poke = Pokemon.query.filter_by(id = id).first()
     return poke.to_dict_no_item()
 
@@ -88,7 +90,7 @@ def post_items(id):
     if form.validate_on_submit():
         new_item = Item(
             happiness = form.data["happiness"],
-            imageUrl = form.data["imageUrl"],
+            imageUrl = randomImage(),
             name = form.data["name"],
             price = form.data["price"],
             pokemonId = id

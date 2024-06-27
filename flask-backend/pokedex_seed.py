@@ -9,7 +9,7 @@ from app import app, db
 from app.models.item import Item
 from app.models.pokemon import Pokemon
 from random import randint, uniform
-from seedData import pokemon_seeds, randomImage, randomProductName
+from app.seedData import pokemon_seeds, randomImage, randomProductName
 
 with app.app_context():
 
