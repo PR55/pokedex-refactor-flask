@@ -6,7 +6,7 @@ from ..models.item import Item, db
 bp = Blueprint("items", __name__, url_prefix="/api")
 
 
-@bp.route('/items/<int>:id', methods=["PUT"])
+@bp.route('/items/<int:id>', methods=["PUT"])
 def update_item(id):
     item = Item.query.filter_by(id = id).first()
     form = ItemForm()
@@ -23,7 +23,7 @@ def update_item(id):
         return form.errors
 
 
-@bp.route('/<int>:id', methods=["DELETE"])
+@bp.route('/<int:id>', methods=["DELETE"])
 def delete_item(id):
     item = Item.query.filter_by(id = id).first()
     db.session.delete(item)

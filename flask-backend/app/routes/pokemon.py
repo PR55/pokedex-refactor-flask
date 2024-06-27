@@ -34,7 +34,7 @@ def pokemon():
     return all_pokemon
 
 
-@bp.route('/pokemon/<int>:id', methods=["PUT"])
+@bp.route('/pokemon/<int:id>', methods=["PUT"])
 def edit_pokemon(id):
     pokemon = Pokemon.query.filter_by(id = id).first()
     form = CreatePokemonForm()
@@ -70,9 +70,11 @@ def get_types():
 #     return random_poke
 
 
-@bp.route('/pokemon/<int>:id/items', methods=["GET","POST"])
+@bp.route("/pokemon/<int:id>/items", methods=["GET","POST"])
 def post_items(id):
-    items = Item.Query.filter_by(pokemonId = id).all()
+    print("HERE")
+    items = Item.query.filter_by(pokemonId = id).all()
+    
     form = ItemForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
@@ -90,4 +92,4 @@ def post_items(id):
     if form.errors:
         return form.errors
     
-    return items
+    return [x.to_dict() for x in items]
