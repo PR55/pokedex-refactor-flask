@@ -8,9 +8,13 @@ from .models.item import Item
 from .models.pokemon import Pokemon
 from flask_migrate import Migrate
 import os
+from .routes.items import bp as items
+from .routes.pokemon import bp as pokemons
 
 app =Flask(__name__)
 app.config.from_object(Config)
+app.register_blueprint(items)
+app.register_blueprint(pokemons)
 
 db.init_app(app)
 
@@ -28,7 +32,3 @@ def inject_csrf_token(response):
         httponly=True)
     return response
 
-@app.route('/')
-def index():
-    grabPokemon = Pokemon.query.filter_by(id=1).first()
-    return "<h1>AAAAAAAAAAAAAAAAA</h1>"

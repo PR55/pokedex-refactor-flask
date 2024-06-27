@@ -48,7 +48,7 @@ class Pokemon(db.Model):
             'captured':self.captured,
             'attack':self.attack,
             'defense':self.defense,
-            'type':self.type,
+            'type':self.type.value,
             'moves':moves,
             'items':items
         }
