@@ -1,8 +1,9 @@
 from flask import Flask, Blueprint, render_template, redirect, request
 from flask_migrate import Migrate
-from ..forms import CreatePokemonForm
+from ..forms import CreatePokemonForm, ItemForm
 from ..models.pokemon import Pokemon, db, Types
-
+from ..models.item import Item
+from random import random
 bp = Blueprint("pokemons", __name__, url_prefix="/api")
 
 
@@ -62,3 +63,31 @@ def get_types():
     return [x.value for x in Types]
 
 
+# @bp.route('/pokemon/random', methods=["GET"])
+# def get_random():
+#     pokemon = Pokemon.query.all()
+#     random_poke = random.choice(pokemon)
+#     return random_poke
+
+
+@bp.route('/pokemon/<int>:id/items', methods=["GET","POST"])
+def post_items(id):
+    items = Item.Query.filter_by(pokemonId = id).all()
+    form = ItemForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        new_item = Item(
+            happiness = form.data["happiness"],
+            imageUrl = form.data["imageUrl"],
+            name = form.data["name"],
+            price = form.data["price"],
+            pokemonId = id
+        )
+        db.session.add(new_item)
+        db.session.commit()
+        return new_item
+    if form.errors:
+        return form.errors
+    
+    return items

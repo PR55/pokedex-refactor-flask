@@ -52,3 +52,4 @@ class Pokemon(db.Model):
             'moves':moves,
             'items':items
         }
+
