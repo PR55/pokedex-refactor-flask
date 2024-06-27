@@ -33,6 +33,10 @@ def pokemon():
     all_pokemon = [x.to_dict() for x in Pokemon.query.all()]
     return all_pokemon
 
+@bp.route('/pokemon/<int:id>', methods=['GET'])
+def one_pokemon(id):
+    poke = Pokemon.query.filter_by(id = id).first()
+    return poke.to_dict()
 
 @bp.route('/pokemon/<int:id>', methods=["PUT"])
 def edit_pokemon(id):
@@ -56,25 +60,26 @@ def edit_pokemon(id):
         return pokemon
     if form.errors:
         return form.errors
-    
+
 
 @bp.route("/pokemon/types", methods=["GET"])
 def get_types():
     return [x.value for x in Types]
 
 
-# @bp.route('/pokemon/random', methods=["GET"])
-# def get_random():
-#     pokemon = Pokemon.query.all()
-#     random_poke = random.choice(pokemon)
-#     return random_poke
+@bp.route('/pokemon/random', methods=["GET"])
+def get_random():
+    pokemon = Pokemon.query.all()
+    random_poke = random.choice(pokemon)
+    return random_poke
 
+@bp.route('/pokemon/<int:id>/items', methods=['GET'])
+def items(id):
+    items = [x.to_dict() for x in Item.query.filter_by(pokemonId = id).all()]
+    return items
 
-@bp.route("/pokemon/<int:id>/items", methods=["GET","POST"])
+@bp.route('/pokemon/<int:id>/items', methods=["POST"])
 def post_items(id):
-    print("HERE")
-    items = Item.query.filter_by(pokemonId = id).all()
-    
     form = ItemForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
@@ -91,5 +96,3 @@ def post_items(id):
         return new_item
     if form.errors:
         return form.errors
-    
-    return [x.to_dict() for x in items]

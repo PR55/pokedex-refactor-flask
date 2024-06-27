@@ -39,6 +39,7 @@ class Pokemon(db.Model):
     def to_dict(self):
         moves = self.moves.split()
         items = [x.get_id() for x in self.items]
+        # print(items)
 
         return {
             'imageUrl':self.imageUrl,
@@ -52,4 +53,3 @@ class Pokemon(db.Model):
             'moves':moves,
             'items':items
         }
-

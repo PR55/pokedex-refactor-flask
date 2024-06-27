@@ -10,11 +10,13 @@ from flask_migrate import Migrate
 import os
 from .routes.items import bp as items
 from .routes.pokemon import bp as pokemons
+from .routes.images import bp as images
 
 app =Flask(__name__)
 app.config.from_object(Config)
 app.register_blueprint(items)
 app.register_blueprint(pokemons)
+app.register_blueprint(images)
 
 db.init_app(app)
 
@@ -31,4 +33,3 @@ def inject_csrf_token(response):
             'FLASK_ENV') == 'production' else None,
         httponly=True)
     return response
-
