@@ -1,4 +1,4 @@
-from ..models import db
+from . import db
 import enum
 
 class Types(enum.Enum):
@@ -29,15 +29,16 @@ class Pokemon(db.Model):
     imageUrl = db.Column(db.String, nullable=False)
     name = db.Column(db.String(255), nullable = False, unique=True)
     type = db.Column(db.Enum(Types), nullable=False)
-    moves = db.Colum(db.String(255), nullable=False)
-    encouterRate = db.Column(db.Float, precision=3, decimal_return_scale= 2)
-    catchRate = db.Column(db.Float, precision=3, decimal_return_scale= 2)
+    moves = db.Column(db.String(255), nullable=False)
+    encounterRate = db.Column(db.Float(precision=3, decimal_return_scale= 2))
+    catchRate = db.Column(db.Float(precision=3, decimal_return_scale= 2))
     captured = db.Column(db.Boolean)
 
     items = db.relationship('Item', back_populates='pokemon')
 
     def to_dict(self):
         items = [x.get_id() for x in self.items]
+
         return {
             'imageUrl':self.imageUrl,
             'id':self.id,

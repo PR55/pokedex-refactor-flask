@@ -13,7 +13,6 @@ WTForms = "*"
 Flask-Migrate = "*"
 alembic = "*"
 
-
 [dev-packages]
 
 [requires]
